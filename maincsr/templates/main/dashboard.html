@@ -61,17 +61,17 @@
     <div>
         <h1 class=" text-indigo-600 font-extrabold underline decoration-stone-700 text-justify text-4xl dark:text-black font-medium dark:text-black mt-5 "> Your Profile </h1>
     </div>
-    <div class=" grid grid-cols-9 gap-1">
-        <div class="col-start-1 col-end-3">
+    <div class=" grid grid-cols-12 gap-1">
+        <div class="col-start-1 col-end-4">
             <div class=" min-w-full min-h-full mt-5 p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 ">
                 <h3 class="mb-2 text-3xl font-extrabold tracking-tight text-indigo-600 dark:text-white">About</h3>
-                <p class="mb-2 text-xl font-normal tracking-tight text-stone-900 dark:text-white ">
+                <p class="overflow-hidden mb-2 text-xl font-normal tracking-tight text-stone-900 dark:text-white ">
                     {{about}}
                 </p>
             </div>
 
         </div>
-        <div class="col-start-3 col-end-6">
+        <div class="col-start-4 col-end-8">
             <div class=" min-w-full min-h-full mt-5 p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 ">
                 <h1 class="mb-2 text-3xl font-extrabold tracking-tight text-indigo-600 dark:text-white">Contact</h1>
                 <h3 class="mb-2 text-2xl font-extrabold tracking-tight text-stone-700 dark:text-white">Email:</h3>
@@ -88,32 +88,46 @@
                 </p>
             </div>
         </div>
-        <div class="col-start-6 col-end-9">
+        <div class="col-start-8 col-end-12">
             {% if ngos %}
             <!--Only if a company's own dashboard is being viewed-->
 
             <div class=" min-w-full min-h-full mt-5 w-max p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <h1 class="mb-5 text-3xl font-extrabold tracking-tight text-indigo-600 dark:text-white">Find NGOs</h1>
                 {%if connacc %}
+                
                 <h3 class="mb-2 text-2xl font-extrabold tracking-tight text-stone-700 dark:text-white">Accepted:</h3>
                 {% for k in connacc %}
                 <a name="ngoname" value="{{k}}" href="/search/search_result/{{k}}" class="w-full mt-5 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-green-500 rounded-full hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-lime-800">
                             {{k}}
                             <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </a> {% endfor %} {% endif %} {%if connpendC %}
+                        </a>
+                {% endfor %}
+                {% endif %} 
+                        <br>
+
+                {%if connpendC %}
                 <h3 class="mb-2 text-2xl font-extrabold tracking-tight text-stone-700 dark:text-white">Requests for you:</h3>
                 {% for j in connpendC %}
                 <a name="ngoname" value="{{j}}" href="/search/search_result/{{j}}" class="w-full mt-5 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-yellow-500 rounded-full hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">
                             {{j}}
                             <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </a> {% endfor %} {% endif %} {%if connpendN %}
-                <h3 class="mb-2 text-2xl font-extrabold tracking-tight text-stone-700 dark:text-white">Awaiting response:</h3> {% for l in connpendN %}
+                        </a> 
+                {% endfor %} 
+                {% endif %} 
+                
+                {%if connpendN %}
+               <h3 class="mb-2 text-2xl font-extrabold tracking-tight text-stone-700 dark:text-white">Awaiting response:</h3> 
+            
+                 {% for l in connpendN %}
                 <a name="ngoname" value="{{l}}" href="/search/search_result/{{l}}" class="w-full mt-5 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-gray-500 rounded-full hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                             {{l}}
                             <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </a> {% endfor %} {% endif %}
-
-                <div class="overflow-y-scroll h-30">
+                        </a> {% endfor %} 
+                        
+                        {% endif %}
+                <h3 class="mb-2 text-2xl font-extrabold tracking-tight text-stone-700 dark:text-white">More NGOs:</h3>
+                <div class="container h-40 overflow-auto">
                     {% for i in ngos %} {% if i not in connpendN and i not in connpendC and i not in connacc %}
                     <a name="ngoname" value="{{i}}" href="/search/search_result/{{i}}" class="w-full mt-5 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-indigo-500 rounded-full hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-gray-800">
                             {{i}}
@@ -131,49 +145,45 @@
                 <a name="companyname" value="{{k}}" href="/search/search_result/{{k}}" class="w-full mt-5 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-green-500 rounded-full hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-lime-800">
                             {{k}}
                             <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </a> {% endfor %} {% endif %} {%if connpendN %}
-                <h3 class="mb-2 text-2xl font-extrabold tracking-tight text-stone-700 dark:text-white">Requests for you:</h3>
+                        </a> {% endfor %}  {% endif %}
+                        
+                         {%if connpendN %}
+                <h3 class="mt-5 mb-2 text-2xl font-extrabold tracking-tight text-stone-700 dark:text-white">Requests for you:</h3>
                 {% for j in connpendN %}
                 <a name="companyname" value="{{j}}" href="/search/search_result/{{j}}" class="w-full mt-5 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-yellow-500 rounded-full hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-lime-800">
                             {{j}}
                             <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </a> {% endfor %} {% endif %} {%if connpendC %}
-                <h3 class="mb-2 text-2xl font-extrabold tracking-tight text-stone-700 dark:text-white">Awaiting response:</h3> {% for l in connpendC %}
-                <a name="ngoname" value="{{l}}" href="/search/search_result/{{l}}" class="w-full mt-5 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-gray-500 rounded-full hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+                
+                <h3 class="mt-5  text-2xl font-extrabold tracking-tight text-stone-700 dark:text-white">Awaiting response:</h3> 
+                
+                {% for l in connpendC %}
+
+                <a name="companyname" value="{{l}}" href="/search/search_result/{{l}}" class="w-full mt-5 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-gray-500 rounded-full hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
                             {{l}}
                             <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </a> {% endfor %} {% endif %} {% for i in comp %} {% if i not in connpendC and i not in connacc and i not in connpendN %}
-                <a name="companyname" value="{{i}}" href="/search/search_result/{{i}}" class="w-full mt-5 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-indigo-500 rounded-full hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-gray-800">
-                            {{i}}
-                            <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </a> {% endfor %} {% endif %}
+        
+                <h3 class="mt-5 mb-2 text-2xl font-extrabold tracking-tight text-stone-700 dark:text-white">More Companies:</h3>
+                <div class="container h-40 overflow-auto">
+                    {% for i in comp %} {% if i not in connpendC and i not in connacc and i not in connpendN %}
+                    <a name="companyname" value="{{i}}" href="/search/search_result/{{i}}" class="w-full mt-5 inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-indigo-500 rounded-full hover:bg-indigo-600 focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-gray-800">
+                                {{i}}
+                                <svg aria-hidden="true" class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </a> {% endif %} {% endfor %}
+                </div>
             </div>
             {% endif %}
         </div>
+    </div>
         <br>
         <br>{% if cert.url %}
         <button type="button " class=" text-white bg-gradient-to-r from-indigo-500 via-indigo-600 to-indigo-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-indigo-300 dark:focus:ring-indigo-800 font-medium rounded-lg text-base
-     px-6 py-3.5 text-center mr-2 mb-2 ">
+        px-10 py-2 text-center">
      {% csrf_token %}
-    
     <a href = "{{cert.url}}">View Your Certificate</a></button> {% endif %}
-
-        <br>
-        <div>
-            <form method="post" action="/connect/">
-                {% csrf_token %}
-                <input type="hidden" id="user" name="user" value="{{org_name}}"> {% for username in users %}
-                <button class="GFG" id="connect_with" name="connect_with" type="submit" value="{{username}}">Connect with {{username}}</button><br> {% endfor %}
-            </form>
-        </div>
-        <br>
-        <br>
-        <br>
-        <br>
-
-
-
-
+    <br>
+    <br>
 </body>
 
 </html>

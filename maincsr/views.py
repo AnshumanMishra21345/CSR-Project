@@ -7,7 +7,6 @@ from django.contrib.auth.models import User, auth
 from django.contrib import messages #to display error messages
 from django.urls import reverse
 import time,datetime
-#from validate_email import validate_email#for email validation
 from django.conf import settings
 from django.core.mail import send_mail
 import snoop
@@ -96,12 +95,6 @@ def company_signup_page(request): # view for company signup page
             elif CompRep.objects.filter(r_email=r_email).exists():
                 messages.info(request, "Representative email taken.")
                 return redirect('/Company-sign-up-page')
-            elif not EMAILCHECK(email):
-                messages.info(request, "Company Email invalid.")
-                return redirect('/Company-sign-up-page')
-            elif not EMAILCHECK(r_email):
-                messages.info(request, "Representative email invalid.")
-                return redirect('/Company-sign-up-page')
             else:
                 user=User.objects.create_user(username=username, password= password, email=email, first_name=fname, last_name=lname) #default table created django
                 user.save()
@@ -175,12 +168,6 @@ def ngo_signup_page(request): # view for ngo signup page
             elif NGORep.objects.filter(r_email=r_email).exists():
                 messages.info(request, "Representative email taken.")
                 return redirect('/NGO-sign-up-page')
-            elif not EMAILCHECK(email):
-                messages.info(request, "NGO Email invalid.")
-                return redirect('/NGO-sign-up-page')
-            elif not EMAILCHECK(r_email):
-                messages.info(request, "Representative email invalid.")
-                return redirect('/NGO-sign-up-page')
             else:
                 user=User.objects.create_user(username=username, password= password , email=email, first_name=fname, last_name=lname) #password will be hashed in table
                 user.save()
@@ -233,6 +220,25 @@ def dashboard(request, username):
         try:#COMPANY DASHBOARD
             ngos=[]
             data = CompanyTable.objects.get(company_name=username)
+            #For display purposes, entire content is broken into lines of length 15
+            """descwords=data.description.split()#List of all words in description
+            for i in range(len(descwords)):
+                Line=""
+                for j in range(len(descwords[i])):
+                    Line+=descwords[i][j]
+                    if j%5==0 and j%3==0 and j!=0: #Checking if it is a multiple of fifteen
+                       Line+=" "
+                descwords[i]=Line
+               
+
+            data.description=""
+            if len(descwords)==1:
+                data.description=descwords[i]
+            else:
+                for k in descwords:
+                    data.description+=k+" "
+            print(data.description,descwords)""" 
+
             for i in NGOTable.objects.values_list('ngo_name'):
                     ngos.append(i[0])
             connpendC,connpendN,connacc=[],[],[] # connection pending for company, pending for NGO and  connection accepted
@@ -410,7 +416,7 @@ def connect(request):
                     for a in NGORep.objects.values_list('ngo_id_id','fname','lname','r_phone','r_email'):
                         if a[0]==NGOid:
                             for b in CompRep.objects.values_list('company_id_id','fname','lname','r_phone','r_email'):
-                                if b[0]==Compid:
+                                if b[0]==Compid: # This sends an email to ngo if company refuses
                                         subject= "Connection made!"
                                         msg1 = f"Hello {client}!!!,\nThe Company,{connto} has agreed to connect to your NGO."
                                         msg2 = f"\nYou may contact the Company representative whose details are mentioned below"
@@ -436,12 +442,12 @@ def connect(request):
                     for a in NGORep.objects.values_list('ngo_id_id','fname','lname','r_phone','r_email'):
                         if a[0]==NGOid:
                             for b in CompRep.objects.values_list('company_id_id','fname','lname','r_phone','r_email'):
-                                if b[0]==Compid:
+                                if b[0]==Compid: # This sends an email to company if ngo refuses
                                         subject= "Connection request denied"
-                                        msg1 = f"Hello {client},\nThe Company,{connto} has denied to connect to your NGO."
-                                        msg2 = f"\nWe urge you to keep trying. You shall certainly succeed.\n--The CSR Platform Team"
+                                        msg1 = f"Hello {connto},\nThe NGO,{client} has denied to connect to your Company."
+                                        msg2 = f"\nWe hope you do find another partner NGO.\n--The CSR Platform Team"
                                         message = msg1+msg2
-                                        recipient_list = [NGOemail,]
+                                        recipient_list = [Compemail,]
                                         mail(subject,message,recipient_list)
 
         else:#If connection request directed to a NGO
@@ -465,7 +471,7 @@ def connect(request):
                     for a in CompRep.objects.values_list('company_id_id','fname','lname','r_phone','r_email'):
                         if a[0]==Compid:
                             for b in NGORep.objects.values_list('ngo_id_id','fname','lname','r_phone','r_email'):
-                                if b[0]==NGOid:
+                                if b[0]==NGOid: # This sends an email to both ngo and company indicating successful connection
                                         subject = "Connection made!"
                                         msg1 = f"Hello {client}!!!,\nThe NGO,{connto} has agreed to connect to your Company."
                                         msg2 = f"\nYou may contact the NGO representative whose details are mentioned below"
@@ -485,25 +491,24 @@ def connect(request):
                                         mail(subject,message,recipient_list)
 
                                         
-                elif 'Refusal' in request.POST:
+                elif 'Refusal' in request.POST: 
                     Connections.objects.filter(ngo_name=connto,company_name=client).update(status="Refused",respdate=dtval)
                     for a in CompRep.objects.values_list('company_id_id','fname','lname','r_phone','r_email'):
                         if a[0]==Compid:
                             for b in NGORep.objects.values_list('ngo_id_id','fname','lname','r_phone','r_email'):
-                                if b[0]==NGOid:
+                                if b[0]==NGOid: # This sends an email to ngo if company refuses
                                         subject= "Connection request denied"
-                                        msg1 = f"Hello {client},\nThe NGO,{connto} has denied to connect to your Company."
-                                        msg2 = f"\nWe hope you do find another partner NGO.\n--The CSR Platform Team"
+                                        msg1 = f"Hello {connto} ,\nThe Company,{client} has denied to connect to your NGO."
+                                        msg2 = f"\nWe urge you to keep trying. You shall certainly succeed.\n--The CSR Platform Team"
                                         message = msg1+msg2
-                                        recipient_list = [Compemail,]
+                                        recipient_list = [NGOemail,]
                                         mail(subject,message,recipient_list)
+                                        
 
     return redirect(f"/dashboard/{client}")
 
 @snoop
 def mail(subject, message, recipient_list):
-    # email_from = settings.EMAIL_HOST_USER
-    # send_mail(subject,message,email_from,recipient_list,fail_silently=True)
+    email_from = settings.EMAIL_HOST_USER
+    send_mail(subject,message,email_from,recipient_list,fail_silently=True)
     pass
-def EMAILCHECK(Email):
-    return True #validate_email(Email,verify=True)
